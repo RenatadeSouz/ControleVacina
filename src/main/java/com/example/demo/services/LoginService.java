@@ -12,9 +12,10 @@ public class LoginService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public String findByAccess(LoginDto login) {
-        Usuario usuarioLogado = usuarioRepository.findByAccess(login);
+    public String findByAccess(LoginDto login,HttpSession session) {
+        Usuario usuarioLogado = usuarioRepository.findByAccess(login,HttpSession session);
         if (usuarioLogado == null) {
+            session.setAttribute("msgErro", "nao achou usuario");
             return "redirect:/";
         }
         if (usuarioLogado.getCargo().equals(Usuario.TIP_CARGO_APLICADOR)) {

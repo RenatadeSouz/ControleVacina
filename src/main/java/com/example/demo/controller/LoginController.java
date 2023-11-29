@@ -18,13 +18,16 @@ public class LoginController {
     private LoginService service;
 
     @PostMapping
-    public String login(LoginDto loginDto) {
-        return service.findByAccess(loginDto);
+    public String login(LoginDto loginDto, HttpSession session) {
+        return service.findByAccess(loginDto,session);
     }
 
     @GetMapping
-    public String telaLogin() {
-        return "login";
+    public ModelAndView telaLogin(HttpSession session) {
+        ModelAndView mv = new ModelAndView("login");
+        String msgErro = (String) session.getAttribute("msgErro");
+        mv.addObject(msgErro);
+        return mv;
     }
 
     @GetMapping("/sair")
